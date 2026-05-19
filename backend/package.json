@@ -1,0 +1,17 @@
+{
+  "name": "devtools-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Lambda dispatcher for DevTools app",
+  "main": "handlers/dispatcher.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.600.0",
+    "@aws-sdk/util-dynamodb": "^3.600.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
