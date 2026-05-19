@@ -39,48 +39,38 @@ locals {
   prefix = "${var.project}-${var.environment}"
 }
 
-# ── S3: frontend hosting + tf state (state bucket created separately via bootstrap) ──
-module "s3" {
-  source      = "./modules/s3"
+module "amplify" {
+  source      = "./modules/amplify"
   prefix      = local.prefix
 }
 
-# ── CloudFront: CDN in front of S3 ──
-module "cloudfront" {
-  source            = "./modules/cloudfront"
-  prefix            = local.prefix
-  bucket_id         = module.s3.bucket_id
-  bucket_arn        = module.s3.bucket_arn
-  bucket_domain     = module.s3.bucket_regional_domain
-}
-
 # ── Cognito: user pool + app client ──
-module "cognito" {
-  source         = "./modules/cognito"
-  prefix         = local.prefix
-  callback_urls  = var.cognito_callback_urls
-  logout_urls    = var.cognito_logout_urls
-}
+# module "cognito" {
+#   source         = "./modules/cognito"
+#   prefix         = local.prefix
+#   callback_urls  = var.cognito_callback_urls
+#   logout_urls    = var.cognito_logout_urls
+# }
 
-# ── DynamoDB: snippet history table ──
-module "dynamodb" {
-  source = "./modules/dynamodb"
-  prefix = local.prefix
-}
+# # ── DynamoDB: snippet history table ──
+# module "dynamodb" {
+#   source = "./modules/dynamodb"
+#   prefix = local.prefix
+# }
 
-# ── Lambda: single dispatcher function ──
-module "lambda" {
-  source             = "./modules/lambda"
-  prefix             = local.prefix
-  dynamodb_table_arn = module.dynamodb.table_arn
-  dynamodb_table_name = module.dynamodb.table_name
-}
+# # ── Lambda: single dispatcher function ──
+# module "lambda" {
+#   source             = "./modules/lambda"
+#   prefix             = local.prefix
+#   dynamodb_table_arn = module.dynamodb.table_arn
+#   dynamodb_table_name = module.dynamodb.table_name
+# }
 
-# ── API Gateway: REST API wired to Lambda ──
-module "api_gateway" {
-  source             = "./modules/api_gateway"
-  prefix             = local.prefix
-  lambda_invoke_arn  = module.lambda.invoke_arn
-  lambda_func_name   = module.lambda.function_name
-  cognito_user_pool_arn = module.cognito.user_pool_arn
-}
+# # ── API Gateway: REST API wired to Lambda ──
+# module "api_gateway" {
+#   source             = "./modules/api_gateway"
+#   prefix             = local.prefix
+#   lambda_invoke_arn  = module.lambda.invoke_arn
+#   lambda_func_name   = module.lambda.function_name
+#   cognito_user_pool_arn = module.cognito.user_pool_arn
+# }
