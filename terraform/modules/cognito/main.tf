@@ -1,62 +1,57 @@
-variable "prefix"        { type = string }
+variable "prefix" { type = string }
 variable "callback_urls" { type = list(string) }
-variable "logout_urls"   { type = list(string) }
+variable "logout_urls" { type = list(string) }
 
+# The User Pool (Your User Database)
 resource "aws_cognito_user_pool" "main" {
-  name = "${var.prefix}-users"
+  name = "${var.prefix}-user-pool"
 
+  # What do users use to log in? (Usually email)
+  alias_attributes         = ["email"]
+  auto_verified_attributes = ["email"]
+
+  # Password Policy
   password_policy {
     minimum_length    = 8
     require_lowercase = true
     require_numbers   = true
-    require_symbols   = false
+    require_symbols   = true
     require_uppercase = true
   }
 
-  auto_verified_attributes = ["email"]
-
-  account_recovery_setting {
-    recovery_mechanism {
-      name     = "verified_email"
-      priority = 1
-    }
-  }
-
-  schema {
-    name                = "email"
-    attribute_data_type = "String"
-    required            = true
-    mutable             = true
+  # Allow users to sign themselves up
+  admin_create_user_config {
+    allow_admin_create_user_only = false
   }
 }
 
-resource "aws_cognito_user_pool_domain" "main" {
-  domain       = var.prefix # must be globally unique — change if taken
-  user_pool_id = aws_cognito_user_pool.main.id
-}
-
-resource "aws_cognito_user_pool_client" "app" {
+# The App Client (How your Amplify frontend talks to Cognito)
+resource "aws_cognito_user_pool_client" "client" {
   name         = "${var.prefix}-app-client"
   user_pool_id = aws_cognito_user_pool.main.id
 
-  generate_secret                      = false # SPA — no client secret
+  # OAuth settings needed for modern web apps
   allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows                  = ["code"]
-  allowed_oauth_scopes                 = ["openid", "email", "profile"]
+  allowed_oauth_flows                  = ["code", "implicit"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile"]
 
-  supported_identity_providers = ["COGNITO"]
-  callback_urls                = var.callback_urls
-  logout_urls                  = var.logout_urls
+  callback_urls = var.callback_urls
+  logout_urls   = var.logout_urls
 
-  explicit_auth_flows = [
-    "ALLOW_USER_SRP_AUTH",
-    "ALLOW_REFRESH_TOKEN_AUTH",
-  ]
+  # We don't generate a secret for single-page apps (React/Vue/etc.)
+  generate_secret = false
 }
 
-output "user_pool_id"  { value = aws_cognito_user_pool.main.id }
-output "user_pool_arn" { value = aws_cognito_user_pool.main.arn }
-output "client_id"     { value = aws_cognito_user_pool_client.app.id }
-output "domain"        { value = "${aws_cognito_user_pool_domain.main.domain}.auth.${data.aws_region.current.name}.amazoncognito.com" }
+# The Domain (The hosted UI for logging in)
+resource "aws_cognito_user_pool_domain" "domain" {
+  # This domain prefix must be globally unique across all of AWS!
+  # Using your project prefix + a random string is usually best.
+  domain       = "${var.prefix}-auth-login"
+  user_pool_id = aws_cognito_user_pool.main.id
+}
 
-data "aws_region" "current" {}
+# Outputs needed for the frontend and API Gateway
+output "user_pool_id" { value = aws_cognito_user_pool.main.id }
+output "user_pool_arn" { value = aws_cognito_user_pool.main.arn }
+output "client_id" { value = aws_cognito_user_pool_client.client.id }
+output "domain" { value = aws_cognito_user_pool_domain.domain.domain }

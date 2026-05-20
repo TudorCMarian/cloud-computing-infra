@@ -39,18 +39,21 @@ locals {
   prefix = "${var.project}-${var.environment}"
 }
 
+# ── Amplify: Frontend Hosting ──
 module "amplify" {
-  source      = "./modules/amplify"
-  prefix      = local.prefix
+  source       = "./modules/amplify"
+  prefix       = local.prefix
+  user_pool_id = module.cognito.user_pool_id
+  client_id    = module.cognito.client_id
 }
 
 # ── Cognito: user pool + app client ──
-# module "cognito" {
-#   source         = "./modules/cognito"
-#   prefix         = local.prefix
-#   callback_urls  = var.cognito_callback_urls
-#   logout_urls    = var.cognito_logout_urls
-# }
+module "cognito" {
+  source         = "./modules/cognito"
+  prefix         = local.prefix
+  callback_urls  = var.cognito_callback_urls
+  logout_urls    = var.cognito_logout_urls
+}
 
 # # ── DynamoDB: snippet history table ──
 # module "dynamodb" {

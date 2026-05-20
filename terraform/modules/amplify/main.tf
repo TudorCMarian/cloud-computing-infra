@@ -1,10 +1,14 @@
-variable "prefix" {
-  type = string
-}
-
+variable "prefix" { type = string }
+variable "user_pool_id" { type = string }
+variable "client_id" { type = string }
 resource "aws_amplify_app" "frontend" {
   name = "${var.prefix}-frontend"
 
+  environment_variables = {
+    VITE_USER_POOL_ID = var.user_pool_id
+    VITE_CLIENT_ID    = var.client_id
+  }
+  
   custom_rule {
     source = "/<*>"
     status = "404-200"
