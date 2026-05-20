@@ -33,7 +33,7 @@ export const handler = async (event) => {
         return response(400, { error: `Unknown tool: ${tool}` });
       }
 
-      const result = toolHandlers[tool](input);
+      const result = await toolHandlers[tool](input);
       return response(200, { tool, result });
     }
 

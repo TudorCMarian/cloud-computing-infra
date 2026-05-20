@@ -2,7 +2,7 @@ import { createVerify, createPublicKey } from "crypto";
 import { X509Certificate } from "crypto";
 
 // ── JWT verify (signature check — needs server-side crypto) ──
-function verifyJwt(input) {
+async function verifyJwt(input) {
   const { token, secret } = input ?? {};
   if (!token) return { error: "token is required" };
 

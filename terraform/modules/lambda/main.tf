@@ -2,53 +2,37 @@ variable "prefix"              { type = string }
 variable "dynamodb_table_arn"  { type = string }
 variable "dynamodb_table_name" { type = string }
 
+resource "null_resource" "lambda_build" {
+  triggers = {
+    package_json = filemd5("${path.root}/../backend/package.json")
+  }
+  provisioner "local-exec" {
+    command     = "npm ci --omit=dev"
+    working_dir = "${path.root}/../backend"
+  }
+}
 # Package the handler source into a zip
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_dir  = "${path.root}/../backend/src"
+  source_dir  = "${path.root}/../backend"
   output_path = "${path.module}/lambda_package.zip"
+  excludes    = [
+    "node_modules/.cache",
+    "src/**/*.test.js",
+    ".env"
+  ]
+
+  depends_on = [null_resource.lambda_build]
 }
 
-# IAM role for Lambda execution
-resource "aws_iam_role" "lambda" {
-  name = "${var.prefix}-lambda-role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Service = "lambda.amazonaws.com" }
-      Action    = "sts:AssumeRole"
-    }]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "basic_execution" {
-  role       = aws_iam_role.lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-resource "aws_iam_role_policy" "dynamodb_access" {
-  name = "${var.prefix}-lambda-dynamo"
-  role = aws_iam_role.lambda.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Action = [
-        "dynamodb:PutItem",
-        "dynamodb:GetItem",
-        "dynamodb:Query",
-        "dynamodb:DeleteItem",
-      ]
-      Resource = var.dynamodb_table_arn
-    }]
-  })
+data "aws_iam_role" "lab" {
+  name = "LabRole"
 }
 
 resource "aws_lambda_function" "dispatcher" {
   function_name    = "${var.prefix}-dispatcher"
-  role             = aws_iam_role.lambda.arn
-  handler          = "handlers/dispatcher.handler"
+  role             = data.aws_iam_role.lab.arn
+  handler          = "src/handlers/dispatcher.handler"
   runtime          = "nodejs20.x"
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256

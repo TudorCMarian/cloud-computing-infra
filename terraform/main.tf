@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/archive"
       version = "~> 2.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
   }
 
   backend "s3" {
@@ -55,11 +59,11 @@ module "cognito" {
   logout_urls    = var.cognito_logout_urls
 }
 
-# # ── DynamoDB: snippet history table ──
-# module "dynamodb" {
-#   source = "./modules/dynamodb"
-#   prefix = local.prefix
-# }
+# ── DynamoDB: snippet history table ──
+module "dynamodb" {
+  source = "./modules/dynamodb"
+  prefix = local.prefix
+}
 
 # # ── Lambda: single dispatcher function ──
 # module "lambda" {
