@@ -34,11 +34,10 @@ resource "aws_cognito_user_pool_client" "client" {
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
+  supported_identity_providers         = ["COGNITO"]
 
   callback_urls = var.callback_urls
   logout_urls   = var.logout_urls
-
-  # We don't generate a secret for single-page apps (React/Vue/etc.)
   generate_secret = false
 }
 
