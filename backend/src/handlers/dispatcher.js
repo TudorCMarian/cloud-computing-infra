@@ -51,9 +51,17 @@ export const handler = async (event) => {
       const userId = getUserId(event);
       if (!userId) return response(401, { error: "Unauthorized" });
 
-      const { tool, input, output, label } = JSON.parse(event.body ?? "{}");
-      if (!tool || !input) return response(400, { error: "tool and input are required" });
+    const clientSideTools = ["base64-encode", "base64-decode", "url-encode", "url-decode", "jwt-inspect", "json-format", "regex-test", "unix-timestamp"];
 
+    if (!tool) {
+      return response(400, { error: "tool is required" });
+    }
+    if (clientSideTools.includes(tool)) {
+      return response(400, { error: `${tool} runs client-side — do not call the API for this tool` });
+    }
+    if (!toolHandlers[tool]) {
+      return response(400, { error: `Unknown tool: ${tool}. Available: ${Object.keys(toolHandlers).join(", ")}` });
+    }
       const snippet = await saveSnippet({ userId, tool, input, output, label });
       return response(201, { snippet });
     }

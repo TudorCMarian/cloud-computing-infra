@@ -9,6 +9,7 @@ terraform/modules/lambda/lambda_package.zip
 # Node
 node_modules/
 frontend/dist/
+package-lock.json
 
 # Env files — never commit
 .env

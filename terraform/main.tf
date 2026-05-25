@@ -65,19 +65,19 @@ module "dynamodb" {
   prefix = local.prefix
 }
 
-# # ── Lambda: single dispatcher function ──
-# module "lambda" {
-#   source             = "./modules/lambda"
-#   prefix             = local.prefix
-#   dynamodb_table_arn = module.dynamodb.table_arn
-#   dynamodb_table_name = module.dynamodb.table_name
-# }
+# ── Lambda: single dispatcher function ──
+module "lambda" {
+  source              = "./modules/lambda"
+  prefix              = local.prefix
+  dynamodb_table_arn  = module.dynamodb.table_arn
+  dynamodb_table_name = module.dynamodb.table_name
+}
 
-# # ── API Gateway: REST API wired to Lambda ──
-# module "api_gateway" {
-#   source             = "./modules/api_gateway"
-#   prefix             = local.prefix
-#   lambda_invoke_arn  = module.lambda.invoke_arn
-#   lambda_func_name   = module.lambda.function_name
-#   cognito_user_pool_arn = module.cognito.user_pool_arn
-# }
+# ── API Gateway: REST API wired to Lambda ──
+module "api_gateway" {
+  source                = "./modules/api_gateway"
+  prefix                = local.prefix
+  lambda_invoke_arn     = module.lambda.invoke_arn
+  lambda_func_name      = module.lambda.function_name
+  cognito_user_pool_arn = module.cognito.user_pool_arn
+}

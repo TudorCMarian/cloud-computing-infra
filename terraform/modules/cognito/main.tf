@@ -1,6 +1,7 @@
 variable "prefix" { type = string }
 variable "callback_urls" { type = list(string) }
 variable "logout_urls" { type = list(string) }
+data "aws_region" "current" {}
 
 # The User Pool (Your User Database)
 resource "aws_cognito_user_pool" "main" {
@@ -53,4 +54,4 @@ resource "aws_cognito_user_pool_domain" "domain" {
 output "user_pool_id" { value = aws_cognito_user_pool.main.id }
 output "user_pool_arn" { value = aws_cognito_user_pool.main.arn }
 output "client_id" { value = aws_cognito_user_pool_client.client.id }
-output "domain" { value = aws_cognito_user_pool_domain.domain.domain }
+output "domain" { value = "${aws_cognito_user_pool_domain.domain.domain}.auth.${data.aws_region.current.name}.amazoncognito.com" }

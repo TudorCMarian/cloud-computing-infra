@@ -108,6 +108,14 @@ resource "aws_api_gateway_deployment" "main" {
     ]))
   }
 
+    depends_on = [
+    aws_api_gateway_integration.tools_post,
+    aws_api_gateway_integration.snippets_get,
+    aws_api_gateway_integration.snippets_post,
+    module.cors_tools,
+    module.cors_snippets,
+  ]
+
   lifecycle { create_before_destroy = true }
 }
 

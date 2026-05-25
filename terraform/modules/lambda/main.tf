@@ -3,8 +3,9 @@ variable "dynamodb_table_arn"  { type = string }
 variable "dynamodb_table_name" { type = string }
 
 resource "null_resource" "lambda_build" {
-  triggers = {
-    package_json = filemd5("${path.root}/../backend/package.json")
+triggers = {
+    # This forces a rebuild if ANY file in the backend folder changes
+    dir_sha1 = sha1(join("", [for f in fileset("${path.root}/../backend", "**"): filesha1("${path.root}/../backend/${f}")]))
   }
   provisioner "local-exec" {
     command     = "npm ci --omit=dev"
@@ -44,6 +45,9 @@ resource "aws_lambda_function" "dispatcher" {
       DYNAMODB_TABLE = var.dynamodb_table_name
       NODE_ENV       = "production"
     }
+  }
+  tracing_config {
+    mode = "Active"
   }
 }
 

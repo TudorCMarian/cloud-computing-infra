@@ -1,7 +1,7 @@
-# output "api_gateway_url" {
-#   description = "Base URL for all API calls"
-#   value       = module.api_gateway.invoke_url
-# }
+output "api_gateway_url" {
+  description = "Base URL for all API calls"
+  value       = module.api_gateway.invoke_url
+}
 
 output "cognito_user_pool_id" {
   description = "Cognito user pool ID — needed for frontend config"
