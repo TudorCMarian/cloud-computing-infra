@@ -8,7 +8,7 @@ resource "aws_cognito_user_pool" "main" {
   name = "${var.prefix}-user-pool"
 
   # What do users use to log in? (Usually email)
-  alias_attributes         = ["email"]
+  username_attributes      = ["email"]
   auto_verified_attributes = ["email"]
 
   # Password Policy

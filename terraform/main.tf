@@ -45,10 +45,14 @@ locals {
 
 # ── Amplify: Frontend Hosting ──
 module "amplify" {
-  source       = "./modules/amplify"
-  prefix       = local.prefix
-  user_pool_id = module.cognito.user_pool_id
-  client_id    = module.cognito.client_id
+  source         = "./modules/amplify"
+  prefix         = local.prefix
+  user_pool_id   = module.cognito.user_pool_id
+  client_id      = module.cognito.client_id
+  cognito_domain = module.cognito.domain
+  api_url        = module.api_gateway.invoke_url
+  github_token   = var.github_token
+  github_repo    = var.github_repo
 }
 
 # ── Cognito: user pool + app client ──

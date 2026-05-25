@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getCurrentUser, signOut, fetchAuthSession } from "aws-amplify/auth";
+import { getCurrentUser, signOut, fetchAuthSession, fetchUserAttributes } from "aws-amplify/auth";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -7,7 +7,10 @@ export function useAuth() {
 
   useEffect(() => {
     getCurrentUser()
-      .then(setUser)
+      .then(async () => {
+        const attributes = await fetchUserAttributes();
+        setUser({ username: attributes.email });
+      })
       .catch(() => setUser(null))
       .finally(() => setLoading(false));
   }, []);
