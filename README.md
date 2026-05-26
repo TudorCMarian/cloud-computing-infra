@@ -23,6 +23,8 @@ graph TD
         API[🚪 API Gateway]:::aws
         Lambda[⚡ Lambda: Dispatcher]:::aws
         XRay[📡 AWS X-Ray Tracing]:::aws
+        SQS[📬 SQS: Snippet Queue]:::aws
+        Worker[⚙️ Lambda: SQS Worker]:::aws
         DB[(🗄️ DynamoDB: Snippets)]:::aws
     end
 
@@ -36,10 +38,16 @@ graph TD
     User -->|Visits App| UI
     UI <-->|OAuth / JWT Exchange| Cognito
     UI -->|POST /tools| API
-    UI -->|GET/POST /snippets <br> w/ Cognito Auth| API
+    UI -->|GET/POST /snippets w/ Cognito Auth| API
+
     API -->|Triggers Node.js code| Lambda
     Lambda -.->|Sends Telemetry| XRay
-    Lambda <-->|Query / PutItem| DB
+
+    %% --- The Decoupled Data Flow ---
+    Lambda -->|1. GET /snippets - Direct Read| DB
+    Lambda -->|2. POST /snippets - Queue Write| SQS
+    SQS -->|3. Triggers Batch Processing| Worker
+    Worker -->|4. PutItem - Background Save| DB
 
     %% --- Developer CI/CD Flow ---
     Dev -->|git push| Repo
@@ -50,5 +58,7 @@ graph TD
     GHA <-->|2. Lock state file| TFState
     GHA -->|3. terraform apply| API
     GHA -->|3. terraform apply| Lambda
+    GHA -->|3. terraform apply| SQS
+    GHA -->|3. terraform apply| Worker
     GHA -->|3. terraform apply| DB
 ```
