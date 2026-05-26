@@ -22,7 +22,8 @@ variable "cognito_callback_urls" {
   type        = list(string)
   default     = [
     "http://localhost:5173/callback",
-    "https://master.d2856dxixt49cb.amplifyapp.com/callback"]
+    "https://master.d2856dxixt49cb.amplifyapp.com/callback",
+    "https://master.d2856dxixt49cb.amplifyapp.com/callback/"]
 }
 
 variable "cognito_logout_urls" {

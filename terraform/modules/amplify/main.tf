@@ -39,6 +39,18 @@ resource "aws_amplify_app" "frontend" {
   }
 
   custom_rule {
+    source = "/callback/"
+    status = "200"
+    target = "/index.html"
+  }
+
+  custom_rule {
+    source = "/callback"
+    status = "200"
+    target = "/index.html"
+  }
+
+  custom_rule {
     source = "/<*>"
     status = "404-200"
     target = "/index.html"

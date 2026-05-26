@@ -1,14 +1,19 @@
 // ── CallbackPage.jsx ──
 // Amplify handles the OAuth code exchange automatically.
 // This page just shows a spinner while that happens, then redirects.
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function CallbackPage() {
   const navigate = useNavigate();
+  const handled = useRef(false);
+
   useEffect(() => {
-    // Give Amplify a moment to process the code exchange, then redirect
-    const t = setTimeout(() => navigate("/", { replace: true }), 1500);
+    if (handled.current) return;
+    handled.current = true;
+
+    // Give Amplify time to process the code exchange
+    const t = setTimeout(() => navigate("/", { replace: true }), 2000);
     return () => clearTimeout(t);
   }, [navigate]);
 
