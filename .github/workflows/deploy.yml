@@ -1,112 +1,49 @@
-name: Deploy
+name: Deploy Backend Infrastructure
 
 on:
   push:
-    branches: [main]
-
-permissions:
-  id-token: write   # needed for OIDC auth to AWS
-  contents: read
+    branches: [master]
+  # Allows you to trigger this workflow manually from the GitHub Actions tab
+  workflow_dispatch:
 
 env:
   AWS_REGION: us-east-1
   TF_VERSION: "1.8.5"
 
 jobs:
-  # ── 1. Terraform — provision / update infrastructure ──
   terraform:
-    name: Terraform apply
+    name: Terraform Apply
     runs-on: ubuntu-latest
-    outputs:
-      api_url:            ${{ steps.outputs.outputs.api_url }}
-      cloudfront_domain:  ${{ steps.outputs.outputs.cloudfront_domain }}
-      cognito_pool_id:    ${{ steps.outputs.outputs.cognito_pool_id }}
-      cognito_client_id:  ${{ steps.outputs.outputs.cognito_client_id }}
-      cognito_domain:     ${{ steps.outputs.outputs.cognito_domain }}
-      frontend_bucket:    ${{ steps.outputs.outputs.frontend_bucket }}
-      cf_distribution_id: ${{ steps.outputs.outputs.cf_distribution_id }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Configure AWS credentials (OIDC)
+      # Using standard secrets for AWS Academy temporary credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Required for lab accounts
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-          terraform_wrapper: false
 
-      - name: Terraform init
-        working-directory: terraform
+      - name: Terraform Init
+        # Adjust this path if your root main.tf is not in the 'terraform' folder
+        working-directory: ./terraform
         run: terraform init -backend-config=environments/dev/backend.hcl
+        # If you are using an S3 backend file, append: -backend-config=environments/dev/backend.hcl
 
-      - name: Terraform apply
-        working-directory: terraform
+      - name: Terraform Format Check
+        working-directory: ./terraform
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Apply
+        working-directory: ./terraform
         run: terraform apply -auto-approve
-
-      - name: Capture outputs
-        id: outputs
-        working-directory: terraform
-        run: |
-          echo "api_url=$(terraform output -raw api_gateway_url)" >> $GITHUB_OUTPUT
-          echo "cloudfront_domain=$(terraform output -raw cloudfront_domain)" >> $GITHUB_OUTPUT
-          echo "cognito_pool_id=$(terraform output -raw cognito_user_pool_id)" >> $GITHUB_OUTPUT
-          echo "cognito_client_id=$(terraform output -raw cognito_client_id)" >> $GITHUB_OUTPUT
-          echo "cognito_domain=$(terraform output -raw cognito_domain)" >> $GITHUB_OUTPUT
-          echo "frontend_bucket=$(terraform output -raw frontend_bucket)" >> $GITHUB_OUTPUT
-
-  # ── 2. Build & deploy frontend ──
-  deploy-frontend:
-    name: Build + deploy frontend
-    runs-on: ubuntu-latest
-    needs: terraform
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Build
-        working-directory: frontend
-        env:
-          VITE_API_URL:              ${{ needs.terraform.outputs.api_url }}
-          VITE_COGNITO_USER_POOL_ID: ${{ needs.terraform.outputs.cognito_pool_id }}
-          VITE_COGNITO_CLIENT_ID:    ${{ needs.terraform.outputs.cognito_client_id }}
-          VITE_COGNITO_DOMAIN:       ${{ needs.terraform.outputs.cognito_domain }}
-        run: npm run build
-
-      - name: Sync to S3
-        run: |
-          aws s3 sync frontend/dist s3://${{ needs.terraform.outputs.frontend_bucket }} \
-            --delete \
-            --cache-control "public,max-age=31536000,immutable" \
-            --exclude "index.html"
-          # index.html must NOT be cached so routing always gets the latest shell
-          aws s3 cp frontend/dist/index.html \
-            s3://${{ needs.terraform.outputs.frontend_bucket }}/index.html \
-            --cache-control "no-cache,no-store,must-revalidate"
-
-      - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ needs.terraform.outputs.cf_distribution_id }} \
-            --paths "/*"

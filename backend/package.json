@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.600.0",
-    "@aws-sdk/util-dynamodb": "^3.600.0"
+    "@aws-sdk/util-dynamodb": "^3.600.0",
+    "cronstrue": "^3.14.0",
+    "ip-cidr": "^4.0.2",
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
     "jest": "^29.0.0"
