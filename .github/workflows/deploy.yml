@@ -3,7 +3,6 @@ name: Deploy Backend Infrastructure
 on:
   push:
     branches: [master]
-  # Allows you to trigger this workflow manually from the GitHub Actions tab
   workflow_dispatch:
 
 env:
@@ -12,20 +11,48 @@ env:
 
 jobs:
   terraform:
-    name: Terraform Apply
+    name: Terraform CI/CD Pipeline
     runs-on: ubuntu-latest
+
+    # This sets the working directory for ALL run commands below, keeping the code clean
+    defaults:
+      run:
+        working-directory: ./terraform
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Using standard secrets for AWS Academy temporary credentials
+      # ── STAGE 0: Packages scan
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Application Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Scan Packages for Vulnerabilities (npm audit)
+        working-directory: ./backend
+        run: npm audit --audit-level=high
+
+      - name: Scan Code for Secrets and Vulnerabilities (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: './backend'
+          hide-progress: true
+          format: 'table'
+          exit-code: '1' # Fails the pipeline if it catches anything
+          severity: 'CRITICAL,HIGH'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Required for lab accounts
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup Terraform
@@ -33,19 +60,32 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Terraform Init
-        # Adjust this path if your root main.tf is not in the 'terraform' folder
-        working-directory: ./terraform
-        run: terraform init -backend-config=environments/dev/backend.hcl
-        # If you are using an S3 backend file, append: -backend-config=environments/dev/backend.hcl
-
+      # ── STAGE 1: FORMAT GATE ──
       - name: Terraform Format Check
-        working-directory: ./terraform
+        id: fmt
         run: terraform fmt -check
-        continue-on-error: true
 
-      - name: Terraform Apply
+      # ── STAGE 2: MODULE & SYNTAX CHECK ──
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=environments/dev/backend.hcl
+
+      # Validate checks for typo'd variables, bad module references, and invalid HCL
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      # ── STAGE 3: PLAN ──
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
         env:
-          TF_VAR_github_token: ${{ secrets.AMPLIFY_GITHUB_PAT }}
-        working-directory: ./terraform
-        run: terraform apply -auto-approve
+          TF_VAR_github_token: ${{ secrets.MY_GITHUB_PAT }}
+
+      # ── STAGE 4: APPLY ──
+      - name: Terraform Apply
+        id: apply
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+        env:
+          TF_VAR_github_token: ${{ secrets.MY_GITHUB_PAT }}
