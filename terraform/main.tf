@@ -57,10 +57,10 @@ module "amplify" {
 
 # ── Cognito: user pool + app client ──
 module "cognito" {
-  source         = "./modules/cognito"
-  prefix         = local.prefix
-  callback_urls  = var.cognito_callback_urls
-  logout_urls    = var.cognito_logout_urls
+  source        = "./modules/cognito"
+  prefix        = local.prefix
+  callback_urls = var.cognito_callback_urls
+  logout_urls   = var.cognito_logout_urls
 }
 
 # ── DynamoDB: snippet history table ──

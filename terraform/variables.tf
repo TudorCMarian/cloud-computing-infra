@@ -20,18 +20,18 @@ variable "aws_region" {
 variable "cognito_callback_urls" {
   description = "Allowed callback URLs for Cognito hosted UI"
   type        = list(string)
-  default     = [
+  default = [
     "http://localhost:5173/callback",
     "https://master.d2856dxixt49cb.amplifyapp.com/callback",
-    "https://master.d2856dxixt49cb.amplifyapp.com/callback/"]
+  "https://master.d2856dxixt49cb.amplifyapp.com/callback/"]
 }
 
 variable "cognito_logout_urls" {
   description = "Allowed logout URLs for Cognito hosted UI"
   type        = list(string)
-  default     = [
+  default = [
     "http://localhost:5173",
-    "https://master.d2856dxixt49cb.amplifyapp.com"]
+  "https://master.d2856dxixt49cb.amplifyapp.com"]
 }
 
 variable "github_token" {
@@ -43,5 +43,5 @@ variable "github_token" {
 variable "github_repo" {
   description = "GitHub repo in format username/reponame"
   type        = string
-  default     = "TudorCMarian/cloud-computing-infra"  # update this
+  default     = "TudorCMarian/cloud-computing-infra" # update this
 }

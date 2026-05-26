@@ -80,7 +80,7 @@ jobs:
         id: plan
         run: terraform plan -out=tfplan
         env:
-          TF_VAR_github_token: ${{ secrets.MY_GITHUB_PAT }}
+          TF_VAR_github_token: ${{ secrets.AMPLIFY_GITHUB_PAT }}
 
       # ── STAGE 4: APPLY ──
       - name: Terraform Apply
@@ -88,4 +88,4 @@ jobs:
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
         env:
-          TF_VAR_github_token: ${{ secrets.MY_GITHUB_PAT }}
+          TF_VAR_github_token: ${{ secrets.AMPLIFY_GITHUB_PAT }}
