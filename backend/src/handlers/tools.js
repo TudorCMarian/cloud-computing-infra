@@ -111,20 +111,49 @@ function calculateCidr(input) {
   if (!cidr) return { error: "cidr block is required (e.g., 10.0.0.0/24)" };
 
   try {
-    const subnet = new IPCIDR(cidr);
-    if (!subnet.isValid()) {
+    // 1. Correct validation using the static method
+    if (!IPCIDR.isValidCIDR(cidr)) {
       return { error: "Invalid CIDR notation" };
     }
 
-    const info = subnet.toObject();
+    const subnet = new IPCIDR(cidr);
+
+    // 2. Extract network boundaries using native ip-cidr methods
+    const networkAddress = subnet.start();
+    const broadcastAddress = subnet.end();
+
+    // 3. Extract the prefix to do our own host math safely
+    const prefix = parseInt(cidr.split('/')[1], 10);
+    const isV4 = cidr.includes('.');
+
+    let totalAddresses, usableAddresses, netmask;
+
+    if (isV4) {
+      totalAddresses = Math.pow(2, 32 - prefix);
+      usableAddresses = totalAddresses > 2 ? totalAddresses - 2 : totalAddresses;
+
+      // Calculate IPv4 Netmask manually (Guarded against JS 32-bit shift wrapping)
+      const maskBits = prefix === 0 ? 0 : ~((1 << (32 - prefix)) - 1);
+      netmask = [
+        (maskBits >>> 24) & 255,
+        (maskBits >>> 16) & 255,
+        (maskBits >>> 8) & 255,
+        maskBits & 255
+      ].join('.');
+    } else {
+      // IPv6 handles astronomical numbers, so we return strings instead of crashing JSON
+      totalAddresses = `2^${128 - prefix}`;
+      usableAddresses = totalAddresses;
+      netmask = `/${prefix}`;
+    }
 
     return {
       cidr,
-      networkAddress: info.start,
-      broadcastAddress: info.end,
-      totalAddresses: subnet.size,
-      usableAddresses: subnet.size > 2 ? subnet.size - 2 : subnet.size,
-      netmask: subnet.netmask()
+      networkAddress,
+      broadcastAddress,
+      totalAddresses,
+      usableAddresses,
+      netmask
     };
   } catch (err) {
     return { error: `Failed to calculate subnet: ${err.message}` };
