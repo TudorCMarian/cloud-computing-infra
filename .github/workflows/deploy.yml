@@ -3,6 +3,11 @@ name: Deploy Backend Infrastructure
 on:
   push:
     branches: [master]
+    paths:
+      - 'terraform/**'
+      - 'backend/**'
+      - '.github/workflows/deploy.yml'
+
   workflow_dispatch:
 
 env:
