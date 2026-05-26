@@ -1,0 +1,1 @@
+{"errorType":"ReferenceError","errorMessage":"client is not defined","trace":["ReferenceError: client is not defined","    at writeSnippetToDb (file:///var/task/src/handlers/snippets.js:55:3)","    at Runtime.handler (file:///var/task/src/handlers/worker.js:11:13)","    at Runtime.handleOnceNonStreaming (file:///var/runtime/index.mjs:1306:29)"]}

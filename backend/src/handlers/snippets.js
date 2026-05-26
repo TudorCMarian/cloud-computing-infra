@@ -52,7 +52,7 @@ export async function saveSnippet({ userId, tool, input, output, label }) {
 }
 
 export async function writeSnippetToDb(snippet) {
-  await client.send(
+  await dbClient.send(
     new PutItemCommand({
       TableName: TABLE,
       Item: marshall(snippet),
