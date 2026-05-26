@@ -34,11 +34,11 @@ resource "aws_cognito_user_pool_client" "client" {
   # OAuth settings needed for modern web apps
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code", "implicit"]
-  allowed_oauth_scopes                 = ["email", "openid", "profile"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile", "aws.cognito.signin.user.admin"]
   supported_identity_providers         = ["COGNITO"]
 
-  callback_urls = var.callback_urls
-  logout_urls   = var.logout_urls
+  callback_urls   = var.callback_urls
+  logout_urls     = var.logout_urls
   generate_secret = false
 }
 
