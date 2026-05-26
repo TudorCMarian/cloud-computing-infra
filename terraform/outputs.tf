@@ -27,3 +27,7 @@ output "frontend_live_url" {
   description = "The public URL for the Amplify application"
   value       = module.amplify.amplify_url
 }
+output "sqs_queue_url" {
+  description = "SQS snippet processing queue URL"
+  value       = module.sqs_worker.queue_url
+}

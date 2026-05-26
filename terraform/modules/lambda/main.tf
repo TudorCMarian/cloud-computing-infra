@@ -1,6 +1,7 @@
 variable "prefix"              { type = string }
 variable "dynamodb_table_arn"  { type = string }
 variable "dynamodb_table_name" { type = string }
+variable "sqs_queue_url" { type = string }
 
 resource "null_resource" "lambda_build" {
 triggers = {
@@ -44,6 +45,7 @@ resource "aws_lambda_function" "dispatcher" {
     variables = {
       DYNAMODB_TABLE = var.dynamodb_table_name
       NODE_ENV       = "production"
+      SQS_QUEUE_URL  = var.sqs_queue_url
     }
   }
   tracing_config {

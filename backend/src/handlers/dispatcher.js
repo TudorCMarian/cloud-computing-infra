@@ -1,5 +1,9 @@
 import { toolHandlers } from "./tools.js";
-import { getSnippets, saveSnippet } from "./snippets.js";
+import { getSnippets } from "./snippets.js";
+import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
+import { randomUUID } from "crypto";
+
+const sqs = new SQSClient({ region: process.env.AWS_REGION ?? "us-east-1" });
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -59,16 +63,34 @@ export const handler = async (event) => {
       if (!userId) return response(401, { error: "Unauthorized" });
 
       const { tool, input, output, label } = JSON.parse(event.body ?? "{}");
-
       if (!tool || !input) {
         return response(400, { error: "tool and input are required" });
       }
 
-      const snippet = await saveSnippet({ userId, tool, input, output, label });
-      return response(201, { snippet });
+      const snippetId = randomUUID();
+      const createdAt = new Date().toISOString();
+
+      const snippetData = {
+        userId,
+        snippetId,
+        tool,
+        input,
+        output: output ?? null,
+        label: label ?? `${tool} — ${createdAt}`,
+        createdAt,
+        expiresAt: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60,
+      };
+
+      await sqs.send(new SendMessageCommand({
+        QueueUrl: process.env.SQS_QUEUE_URL,
+        MessageBody: JSON.stringify(snippetData),
+      }));
+
+      return response(202, { message: "Snippet queued", snippet: snippetData });
     }
 
     return response(404, { error: "Not found" });
+
   } catch (err) {
     console.error("Dispatcher error:", err);
     return response(500, { error: "Internal server error" });

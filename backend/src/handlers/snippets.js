@@ -1,13 +1,13 @@
-import {
-  DynamoDBClient,
-  PutItemCommand,
-  QueryCommand,
-} from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, PutItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 import { randomUUID } from "crypto";
 
-const client = new DynamoDBClient({});
+const dbClient = new DynamoDBClient({});
+const sqsClient = new SQSClient({});
+
 const TABLE = process.env.DYNAMODB_TABLE;
+const QUEUE_URL = process.env.SQS_QUEUE_URL;
 
 export async function getSnippets(userId) {
   const cmd = new QueryCommand({
@@ -18,10 +18,11 @@ export async function getSnippets(userId) {
     Limit: 50,
   });
 
-  const result = await client.send(cmd);
+  const result = await dbClient.send(cmd);
   return (result.Items ?? []).map(unmarshall);
 }
 
+// ── PRODUCER: Sends data to SQS instead of DynamoDB ──
 export async function saveSnippet({ userId, tool, input, output, label }) {
   const snippetId = randomUUID();
   const createdAt = new Date().toISOString();
@@ -39,12 +40,22 @@ export async function saveSnippet({ userId, tool, input, output, label }) {
     expiresAt,
   };
 
-  await client.send(
-    new PutItemCommand({
-      TableName: TABLE,
-      Item: marshall(item),
+  // Push to SQS Queue for asynchronous processing
+  await sqsClient.send(
+    new SendMessageCommand({
+      QueueUrl: QUEUE_URL,
+      MessageBody: JSON.stringify(item),
     })
   );
 
   return item;
+}
+
+export async function writeSnippetToDb(snippet) {
+  await client.send(
+    new PutItemCommand({
+      TableName: TABLE,
+      Item: marshall(snippet),
+    })
+  );
 }

@@ -75,6 +75,7 @@ module "lambda" {
   prefix              = local.prefix
   dynamodb_table_arn  = module.dynamodb.table_arn
   dynamodb_table_name = module.dynamodb.table_name
+  sqs_queue_url       = module.sqs_worker.queue_url
 }
 
 # ── API Gateway: REST API wired to Lambda ──
@@ -84,4 +85,12 @@ module "api_gateway" {
   lambda_invoke_arn     = module.lambda.invoke_arn
   lambda_func_name      = module.lambda.function_name
   cognito_user_pool_arn = module.cognito.user_pool_arn
+}
+
+# ── SQS Worker Module ──
+
+module "sqs_worker" {
+  source              = "./modules/sqs_worker"
+  prefix              = local.prefix
+  dynamodb_table_name = module.dynamodb.table_name
 }
