@@ -100,4 +100,11 @@ export const tools = {
 };
 
 // Server-side tools (routed via Lambda)
-export const serverTools = ["jwt-verify", "cert-parse"];
+export const serverTools = [
+  "jwt-verify",
+  "cert-parse",
+  "cron-translate",
+  "json-to-yaml",
+  "cidr-calc",
+  "dos2unix"
+];
