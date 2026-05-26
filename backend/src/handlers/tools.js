@@ -1,5 +1,7 @@
-import { createVerify, createPublicKey } from "crypto";
-import { X509Certificate } from "crypto";
+import { createVerify, createPublicKey, X509Certificate } from "crypto";
+import cronstrue from "cronstrue";
+import yaml from "js-yaml";
+import IPCIDR from "ip-cidr";
 
 // ── JWT verify (signature check — needs server-side crypto) ──
 async function verifyJwt(input) {
