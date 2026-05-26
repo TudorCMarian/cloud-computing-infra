@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="mxgtnvD9y34qmSC51irM">
-    <mxGraphModel dx="1414" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1030" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -209,6 +209,238 @@
         </mxCell>
         <mxCell id="txH3432P1GuGKCFjaFhu-43" parent="1" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.dynamo_db;fillColor=#2E73B8;gradientColor=none;" value="" vertex="1">
           <mxGeometry height="58" width="60" x="1940" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-44" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="CI/CD &amp; DevOps (GitHub + Terraform)" vertex="1">
+          <mxGeometry height="718" width="972" x="2056" y="1308" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-45" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Serverless Cloud Backend" vertex="1">
+          <mxGeometry height="825" width="906" x="40" y="1713" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-46" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Identity &amp; Access" vertex="1">
+          <mxGeometry height="160" width="324" x="966" y="1713" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-47" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="Frontend Architecture" vertex="1">
+          <mxGeometry height="337" width="726" x="1309" y="1536" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-48" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="👤 End User" vertex="1">
+          <mxGeometry height="105" width="105" x="1583" y="1333" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-49" parent="1" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="💻 Developer" vertex="1">
+          <mxGeometry height="114" width="114" x="2472" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-50" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="⚛️ React SPA / Vite" vertex="1">
+          <mxGeometry height="54" width="205" x="1532" y="1561" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-51" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="☁️ AWS Amplify Hosting" vertex="1">
+          <mxGeometry height="54" width="239" x="1762" y="1766" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-52" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="🔑 AWS Cognito User Pool" vertex="1">
+          <mxGeometry height="54" width="254" x="1001" y="1766" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-53" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="🚪 API Gateway" vertex="1">
+          <mxGeometry height="54" width="179" x="196" y="1766" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-54" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="⚡ Lambda: Dispatcher" vertex="1">
+          <mxGeometry height="54" width="236" x="168" y="1947" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-55" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="📡 AWS X-Ray Tracing" vertex="1">
+          <mxGeometry height="54" width="223" x="75" y="2124" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-56" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="📬 SQS: Snippet Queue" vertex="1">
+          <mxGeometry height="54" width="235" x="445" y="2124" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-57" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="⚙️ Lambda: SQS Worker" vertex="1">
+          <mxGeometry height="54" width="243" x="502" y="2276" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-58" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="🗄️ DynamoDB: Snippets" vertex="1">
+          <mxGeometry height="85" width="195" x="506" y="2428" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-59" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="🐙 GitHub Monorepo" vertex="1">
+          <mxGeometry height="54" width="217" x="2421" y="1358" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-60" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="⚙️ GitHub Actions" vertex="1">
+          <mxGeometry height="54" width="197" x="2592" y="1561" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-61" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="🪣 TF State: S3 + Dynamo Lock" vertex="1">
+          <mxGeometry height="110" width="215" x="2202" y="1738" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-62" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="2633" y="1793" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-63" parent="1" style="whiteSpace=wrap;strokeWidth=2;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);" value="" vertex="1">
+          <mxGeometry x="2691" y="1974" as="geometry" />
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-64" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-50" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.93;exitY=0.99;entryX=0.5;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-51" value="Deployed to">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1881" y="1664" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-65" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-48" style="curved=1;startArrow=none;endArrow=block;exitX=0.49;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;" target="txH3432P1GuGKCFjaFhu-50" value="Visits App">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-66" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-50" style="curved=1;startArrow=block;endArrow=block;exitX=0.68;exitY=0.99;entryX=1;entryY=0.19;rounded=0;" target="txH3432P1GuGKCFjaFhu-52" value="OAuth / JWT Exchange">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1736" y="1664" />
+              <mxPoint x="1736" y="1713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-67" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-50" style="curved=1;startArrow=none;endArrow=block;exitX=0.05;exitY=0.99;entryX=1;entryY=0.38;rounded=0;" target="txH3432P1GuGKCFjaFhu-53" value="POST /tools">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1372" y="1664" />
+              <mxPoint x="1372" y="1713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-68" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-50" style="curved=1;startArrow=none;endArrow=block;exitX=0.33;exitY=0.99;entryX=1;entryY=0.39;rounded=0;" target="txH3432P1GuGKCFjaFhu-53" value="GET/POST /snippets w/ Cognito Auth">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1534" y="1664" />
+              <mxPoint x="1534" y="1713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-69" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-53" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-54" value="Triggers Node.js code">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-70" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-54" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.28;exitY=1;entryX=0.5;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-55" value="Sends Telemetry">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="186" y="2026" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-71" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-54" style="curved=1;startArrow=none;endArrow=block;exitX=0.6;exitY=1;entryX=0;entryY=0.11;rounded=0;" target="txH3432P1GuGKCFjaFhu-58" value="1. GET /snippets - Direct Read">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="333" y="2026" />
+              <mxPoint x="333" y="2379" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-72" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-54" style="curved=1;startArrow=none;endArrow=block;exitX=0.97;exitY=1;entryX=0.41;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-56" value="2. POST /snippets - Queue Write">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="502" y="2026" />
+              <mxPoint x="502" y="2075" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-73" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-56" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.41;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-57" value="3. Triggers Batch Processing">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="562" y="2227" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-74" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-57" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.55;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-58" value="4. PutItem - Background Save">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="624" y="2379" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-75" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-49" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0.01;rounded=0;" target="txH3432P1GuGKCFjaFhu-59" value="git push">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-76" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-59" style="curved=1;startArrow=none;endArrow=block;exitX=0.13;exitY=1.01;entryX=0.99;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-51" value="Auto-Triggers">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2228" y="1487" />
+              <mxPoint x="2228" y="1713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-77" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-59" style="curved=1;startArrow=none;endArrow=block;exitX=0.7;exitY=1.01;entryX=0.5;entryY=-0.01;rounded=0;" target="txH3432P1GuGKCFjaFhu-60" value="Path Filter: /backend &amp; /terraform">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2691" y="1487" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-78" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=none;exitX=0.4;exitY=0.99;entryX=-Infinity;entryY=-Infinity;rounded=0;" target="txH3432P1GuGKCFjaFhu-62" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2633" y="1664" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-79" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-62" style="curved=1;startArrow=none;endArrow=none;exitX=-Infinity;exitY=-Infinity;entryX=-Infinity;entryY=Infinity;rounded=0;" target="txH3432P1GuGKCFjaFhu-63" value="1. Trivy/npm security scan">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2633" y="1910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-80" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-63" style="curved=1;startArrow=none;endArrow=block;exitX=-Infinity;exitY=Infinity;entryX=0.6;entryY=0.99;rounded=0;" target="txH3432P1GuGKCFjaFhu-60" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2748" y="1910" />
+              <mxPoint x="2748" y="1664" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-81" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=block;endArrow=block;exitX=0;exitY=0.86;entryX=0.5;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-61" value="2. Lock state file">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2309" y="1664" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-82" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.75;entryX=1;entryY=0.43;rounded=0;" target="txH3432P1GuGKCFjaFhu-53" value="3. terraform apply">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2142" y="1664" />
+              <mxPoint x="2142" y="1713" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-83" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=block;exitX=0.19;exitY=0.99;entryX=1;entryY=0.44;rounded=0;" target="txH3432P1GuGKCFjaFhu-54" value="3. terraform apply">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2518" y="1664" />
+              <mxPoint x="2518" y="1910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-84" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=block;exitX=0.76;exitY=0.99;entryX=0.6;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-56" value="3. terraform apply">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2834" y="1664" />
+              <mxPoint x="2834" y="2026" />
+              <mxPoint x="629" y="2075" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-85" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=block;exitX=0.92;exitY=0.99;entryX=0.63;entryY=0;rounded=0;" target="txH3432P1GuGKCFjaFhu-57" value="3. terraform apply">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2921" y="1664" />
+              <mxPoint x="2921" y="2026" />
+              <mxPoint x="715" y="2075" />
+              <mxPoint x="715" y="2227" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="txH3432P1GuGKCFjaFhu-86" edge="1" parent="1" source="txH3432P1GuGKCFjaFhu-60" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.93;entryX=1;entryY=0.05;rounded=0;" target="txH3432P1GuGKCFjaFhu-58" value="3. terraform apply">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3007" y="1664" />
+              <mxPoint x="3007" y="2026" />
+              <mxPoint x="836" y="2075" />
+              <mxPoint x="836" y="2379" />
+            </Array>
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
